@@ -1,7 +1,7 @@
 baseURL = "https://windows-network-share-help.pages.dev/"
 languageCode = "en-us"
 title = "Windows Network Share Help"
-enableRobotsTXT = true
+enableRobotsTXT = false
 disableKinds = ["taxonomy", "term"]
 [params]
 source = "windows-network-share-help"
