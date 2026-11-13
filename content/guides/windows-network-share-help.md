@@ -1,17 +1,44 @@
-﻿---
-title: "Windows Shared Folder Not Showing: Check Network Profile First"
-description: "A practical first-pass check for Windows Network Share Help."
-date: 2026-11-13
-draft: true
 ---
-<p>A missing share is often network profile, discovery, or SMB binding before it is a permissions problem.</p>
-<h2>1. Reproduce the exact failure</h2>
-<p>Write down what works, what does not, and the last change. Test from the same device and network where the problem happens. A second device is useful only as a comparison, not as proof.</p>
-<h2>2. Check the layer before the app</h2>
-<p>Confirm the host is reachable, the account or device is allowed, and the local client can see the service. Then test the app setting. Changing three layers at once makes the result impossible to interpret.</p>
-<h2>3. Make one change and retest</h2>
-<p>Record the old value, apply one change, retest, and keep the result. If the change does not fix it, roll it back before trying the next path.</p>
-<h2>4. Handover test</h2>
-<p>Repeat the successful test after a restart or reconnect. A fix that only works in the current session is not ready for handover.</p>
-<p><a href="/">Back to the service page</a> 路 <a href="mailto:hello@handytasklab.com?subject=Windows%20Network%20Share%20Help%20question&body=Source%3A%20windows-network-share-help">Ask about this exact symptom</a></p>
+title: 'Windows Share Not Showing or Asking for Credentials: Test SMB Directly'
+description: A direct SMB test that separates discovery, credentials, share permissions, and NTFS access.
+seo_title: Windows Network Share Missing or Credential Loop
+seo_description: A direct SMB test that separates discovery, credentials, share permissions, and NTFS access.
+keywords:
+- windows network share not showing
+- windows share keeps asking for credentials
+- smb share access denied
+date: '2026-11-13'
+draft: false
+categories:
+- File Sharing
+category_slug: file-sharing
+---
 
+<p>Windows can show a computer in Network while the share is unreachable, or accept a password and still deny the folder. Test the SMB path directly.</p>
+<h2>Before you start</h2><ul>
+<li>Source Windows PC and one client</li>
+<li>A local account with a password</li>
+<li>The exact share name</li>
+<li>Permission to read or write one test file</li>
+</ul>
+<h2>Step-by-step checks</h2>
+<h3>Step 1: Open the share by path</h3>
+<p>On the client, press Win+R and enter `\\source-pc\share`. Use the source PC's name and the exact share name, not a mapped drive.</p>
+<p><strong>Check:</strong> The client reaches a credential prompt or the share contents.</p>
+<h3>Step 2: Clear stale credentials</h3>
+<p>Open Credential Manager and remove old entries for the source PC. Reconnect and enter the intended local account once.</p>
+<p><strong>Check:</strong> The client sends the current account, not an old cached one.</p>
+<h3>Step 3: Check both permission layers</h3>
+<p>On the source, review the share permission and the folder's NTFS permissions for the account. Confirm the client's effective access.</p>
+<p><strong>Check:</strong> The account has the required share and NTFS access.</p>
+<h3>Step 4: Test read and write</h3>
+<p>Create a small text file from the client in the agreed folder, reopen it, and edit it. Check whether the result matches the promised access.</p>
+<p><strong>Check:</strong> The client can read and write the test file.</p>
+<h3>Step 5: Reconnect after restart</h3>
+<p>Disconnect the mapped drive or session, restart the client, and open the share again. Confirm the credential persists correctly.</p>
+<p><strong>Check:</strong> Access works after a client restart without a loop.</p>
+<h2>Verify the result</h2>
+<p>The client opens the share by path, authenticates with the intended account, and reads/writes a test file after reconnecting.</p>
+<h2>Rollback</h2>
+<p>Remove only the test file and test mapping. Restore previous share permissions if a change is rejected.</p>
+<p><a href="/#consult">Ask for help with this exact symptom</a> · <a href="/guides/">All troubleshooting guides</a></p>
