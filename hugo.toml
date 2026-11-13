@@ -2,7 +2,9 @@ baseURL = "https://windows-network-share-help.pages.dev/"
 languageCode = "en-us"
 title = "Windows Network Share Help"
 enableRobotsTXT = true
+disableKinds = ["taxonomy", "term"]
 [params]
+template_version = "v1.1.0"
 description = "Fix Windows 11 LAN sharing for one folder and one second PC, including permissions and credentials."
 category = "PC & Mac"
 source = "windows-network-share-help"
